@@ -175,12 +175,33 @@ img {
     font-weight: 700;
 }
 
+.btn-start {
+    background-color: #E8D20A;
+    color: #0D1B2A;
+    border-color: transparent;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 2px rgba(232,210,10,0.3);
+    animation: pulse-start 2s ease-in-out infinite;
+}
+.btn-start:hover {
+    background-color: #d4be08;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(232,210,10,0.5);
+}
+@keyframes pulse-start {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(232,210,10,0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(232,210,10,0.15); }
+}
+
 /* --------------------------------------
    [섹션 1] 네비게이션 바
 -------------------------------------- */
 .header {
     position: fixed;
-    top: 0;
+    top: 34px;
     left: 0;
     width: 100%;
     z-index: 1000;
@@ -380,8 +401,8 @@ section {
     display: flex;
     align-items: center;
     position: relative;
-    padding-top: 80px;
-    /* 헤더 공간 보상 */
+    padding-top: 114px;
+    /* 유틸리티바(34px) + 헤더(80px) 공간 보상 */
     padding-bottom: 80px;
 }
 

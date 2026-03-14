@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 작성 현황 | Safety-Direct</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', sans-serif; background: #F0F3F7; min-height: 100vh; color: #1A2E44; }
+
+/* 네비바 */
+.nav { background: #0D1B2A; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 12px rgba(0,0,0,0.4); }
+.nav-logo { color: #fff; font-size: 15px; font-weight: 800; text-decoration: none; letter-spacing: 1px; }
+.nav-logo span { color: #E8500A; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-user { color: #8899AA; font-size: 12px; }
+.nav-user strong { color: #fff; }
+.btn-logout { color: #8899AA; font-size: 12px; background: none; border: 1px solid #2a3f52; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.btn-logout:hover { color: #fff; border-color: #5a7a99; }
+
+/* 페이지 */
+.page { max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+
+.page-header { margin-bottom: 28px; }
+.page-header h1 { font-size: 22px; font-weight: 800; color: #1A3A5C; }
+.page-header p { font-size: 13px; color: #6B7280; margin-top: 4px; }
+
+/* 탭 */
+.tabs { display: flex; gap: 4px; border-bottom: 2px solid #D1D5DB; margin-bottom: 24px; }
+.tab { padding: 10px 20px; font-size: 13px; font-weight: 600; color: #6B7280; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+.tab.active { color: #1A3A5C; border-bottom-color: #1A3A5C; }
+.tab:hover:not(.active) { color: #374151; }
+
+/* 빈 상태 */
+.empty-state { text-align: center; padding: 60px 20px; background: #fff; border-radius: 12px; border: 1px solid #E5EBF3; }
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-title { font-size: 16px; font-weight: 700; color: #374151; margin-bottom: 8px; }
+.empty-desc { font-size: 13px; color: #9CA3AF; margin-bottom: 24px; }
+.btn-start { background: linear-gradient(135deg, #1A3A5C, #2D5A8E); color: #fff; border: none; padding: 11px 24px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; box-shadow: 0 4px 14px rgba(26,58,92,0.3); }
+
+/* 양식 카드 목록 */
+.form-list { display: flex; flex-direction: column; gap: 14px; }
+.form-card {
+  background: #fff;
+  border: 1.5px solid #C8E6C9;
+  border-left: 5px solid #2E7D32;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(46,125,50,0.08);
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.form-card:hover { box-shadow: 0 6px 20px rgba(46,125,50,0.14); transform: translateY(-2px); }
+
+/* 카드 상단 완료 배너 */
+.card-complete-banner {
+  background: linear-gradient(90deg, #E8F5E9 0%, #F1F8E9 100%);
+  border-bottom: 1px solid #C8E6C9;
+  padding: 7px 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+.complete-check { font-size: 16px; }
+.complete-text { font-size: 11px; font-weight: 700; color: #2E7D32; letter-spacing: 0.3px; }
+.complete-date { margin-left: auto; font-size: 10.5px; color: #81A784; }
+
+/* 카드 본문 */
+.card-body-row {
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.form-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+  border: 1px solid #A5D6A7;
+}
+.form-info { flex: 1; min-width: 0; }
+.form-type {
+  font-size: 10.5px; font-weight: 700; color: #388E3C;
+  margin-bottom: 3px; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.form-title {
+  font-size: 14px; font-weight: 700; color: #1A2E44;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.form-fields {
+  font-size: 11px; color: #9CA3AF; margin-top: 4px;
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.form-field-chip {
+  background: #F3F4F6; padding: 2px 8px; border-radius: 10px;
+  color: #6B7280; font-size: 10.5px;
+}
+.form-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.btn-open {
+  background: linear-gradient(135deg, #2E7D32, #388E3C);
+  color: #fff; border: none; padding: 8px 18px; border-radius: 7px;
+  font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+  transition: all 0.15s; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 5px;
+  box-shadow: 0 3px 10px rgba(46,125,50,0.25);
+}
+.btn-open:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(46,125,50,0.3); }
+.btn-delete {
+  background: #fff; color: #C0392B;
+  border: 1.5px solid #FECACA; padding: 8px 14px; border-radius: 7px;
+  font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: all 0.15s;
+}
+.btn-delete:hover { background: #FEF2F2; border-color: #C0392B; }
+
+/* 새 작성 버튼 */
+.new-form-btn { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.btn-new { background: linear-gradient(135deg, #E8500A, #C44008); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 4px 14px rgba(232,80,10,0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn-new:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(232,80,10,0.35); }
+
+.count-badge { background: #EEF3FA; color: #1A3A5C; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+/* 로딩 */
+.loading { text-align: center; padding: 40px; color: #9CA3AF; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">SAFETY<span>-DIRECT</span></a>
+  <div class="nav-right">
+    <span class="nav-user" id="navUser">로딩 중...</span>
+    <button class="btn-logout" onclick="doLogout()">로그아웃</button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <h1>내 작성 현황</h1>
+    <p>저장된 안전관리계획서 양식을 관리합니다.</p>
+  </div>
+
+  <div class="new-form-btn">
+    <a href="/forms.html" class="btn-new">✏ 새 양식 작성하기</a>
+    <span class="count-badge" id="countBadge">불러오는 중...</span>
+  </div>
+
+  <div id="listContainer" class="loading">양식 목록을 불러오는 중...</div>
+</div>
+
+<script>
+let currentUser = null;
+
+async function init() {
+  // 로그인 확인
+  const me = await fetch('/api/me').then(r => r.json());
+  if (!me.loggedIn) {
+    location.href = '/login.html?redirect=/dashboard.html';
+    return;
+  }
+  currentUser = me;
+  document.getElementById('navUser').innerHTML = `<strong>${me.name}</strong> · ${me.company}`;
+  loadForms();
+}
+
+async function loadForms() {
+  const container = document.getElementById('listContainer');
+  const badge = document.getElementById('countBadge');
+  try {
+    const forms = await fetch('/api/forms').then(r => r.json());
+    badge.textContent = `저장된 양식 ${forms.length}건`;
+
+    if (forms.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <div class="empty-title">저장된 양식이 없습니다</div>
+          <div class="empty-desc">양식을 작성하고 저장하기 버튼을 누르면 이곳에 저장됩니다.</div>
+          <a href="/forms.html" class="btn-start">✏ 양식 작성 시작하기</a>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = `<div class="form-list">${forms.map(f => formCard(f)).join('')}</div>`;
+  } catch(e) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-title">불러오기 실패</div></div>';
+  }
+}
+
+function formCard(f) {
+  const icons = { '공사개요서': '🏗', '현장특성분석': '🔍', '현장운영계획': '📊', '비상대피계획': '🚨' };
+  const icon = icons[f.formType] || '📋';
+  const date = new Date(f.savedAt).toLocaleString('ko-KR', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+  const href = `/forms/${encodeURIComponent(f.formType)}.html?load=${f.id}`;
+  return `
+    <div class="form-card">
+      <div class="card-complete-banner">
+        <span class="complete-check">✅</span>
+        <span class="complete-text">작성 완료</span>
+        <span class="complete-date">저장: ${date}</span>
+      </div>
+      <div class="card-body-row">
+        <div class="form-icon">${icon}</div>
+        <div class="form-info">
+          <div class="form-type">${f.formType}</div>
+          <div class="form-title">${escHtml(f.title)}</div>
+          <div class="form-fields">
+            <span class="form-field-chip">✔ 저장됨</span>
+            <span class="form-field-chip">${f.formType}</span>
+          </div>
+        </div>
+        <div class="form-actions">
+          <a href="${href}" class="btn-open">📂 열기</a>
+          <button class="btn-delete" onclick="deleteForm('${f.id}')">🗑 삭제</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function deleteForm(id) {
+  if (!confirm('이 양식을 삭제하시겠습니까?')) return;
+  await fetch(`/api/forms/${id}`, { method: 'DELETE' });
+  loadForms();
+}
+
+async function doLogout() {
+  await fetch('/api/logout', { method: 'POST' });
+  location.href = '/';
+}
+
+init();
+</script>
+</body>
+</html>

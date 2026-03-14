@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>안전관리계획서 양식 목록 | Safety-Direct</title>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"/>
+<style>
+:root {
+  --navy: #1A2E44;
+  --dark-navy: #0D1B2A;
+  --orange: #E8500A;
+  --orange-hover: #C44008;
+  --bg: #F4F6F9;
+  --white: #fff;
+  --border: #D1D5DB;
+  --text: #0D1B2A;
+  --muted: #6B7280;
+  --green: #1A6B3C;
+  --label-bg: #dce6f0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* 네비바 */
+.nav {
+  background: var(--dark-navy);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.nav-logo { color: #fff; font-size: 16px; font-weight: 800; text-decoration: none; letter-spacing: 0.5px; }
+.nav-logo span { color: var(--orange); }
+.nav-back { color: #ccc; font-size: 13px; text-decoration: none; transition: color 0.15s; }
+.nav-back:hover { color: #fff; }
+
+/* 페이지 헤더 */
+.page-header {
+  background: linear-gradient(135deg, var(--navy) 0%, #2d5a8e 100%);
+  color: #fff;
+  padding: 40px 24px 32px;
+  text-align: center;
+}
+.page-header h1 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.page-header p { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+/* 컨테이너 */
+.container { max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+
+/* 챕터 구분 */
+.chapter-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy); color: #fff;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 5px 14px; border-radius: 20px;
+  margin-bottom: 16px;
+}
+.chapter-desc { font-size: 12px; color: var(--muted); margin-bottom: 20px; margin-top: -10px; }
+
+/* 1장 카드 그리드 */
+.chapter1-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 40px;
+}
+.form-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.form-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.form-card-index { font-size: 11px; font-weight: 700; color: var(--orange); letter-spacing: 0.3px; }
+.form-card-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.4; }
+.btn-write {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  background: var(--navy); color: #fff;
+  border: none; border-radius: 6px;
+  padding: 8px 14px; font-size: 12px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+.btn-write:hover { background: #2d5a8e; }
+.btn-write.disabled {
+  background: #ccc; color: #888; cursor: not-allowed; pointer-events: none;
+}
+.badge-ready { font-size: 10px; color: var(--green); font-weight: 600; }
+.badge-soon { font-size: 10px; color: var(--muted); }
+
+/* 작성완료 카드 */
+.form-card.completed {
+  border: 1.5px solid #A5D6A7;
+  border-left: 5px solid #2E7D32;
+  background: linear-gradient(160deg, #F1FBF1 0%, #fff 100%);
+  box-shadow: 0 2px 12px rgba(46,125,50,0.1);
+}
+.form-card.completed:hover { box-shadow: 0 6px 20px rgba(46,125,50,0.18); }
+.complete-banner {
+  display: flex; align-items: center; gap: 6px;
+  background: linear-gradient(90deg, #E8F5E9, #F1F8E9);
+  border-bottom: 1px solid #C8E6C9;
+  border-radius: 0;
+  padding: 5px 12px;
+  margin: -20px -18px 12px -18px;
+}
+.complete-banner-text { font-size: 10.5px; font-weight: 700; color: #2E7D32; }
+.complete-banner-date { margin-left: auto; font-size: 10px; color: #81A784; }
+.btn-edit {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  background: linear-gradient(135deg, #2E7D32, #388E3C); color: #fff;
+  border: none; border-radius: 6px;
+  padding: 8px 14px; font-size: 12px; font-weight: 700;
+  cursor: pointer; text-decoration: none;
+  transition: all 0.15s; font-family: inherit;
+  box-shadow: 0 3px 10px rgba(46,125,50,0.25);
+}
+.btn-edit:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(46,125,50,0.3); }
+
+/* ── 2장 섹션 ── */
+.chapter2-section { margin-bottom: 40px; }
+.chapter2-intro {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px 20px;
+  margin-bottom: 0;
+}
+.chapter2-intro p { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+
+/* 대분류 카드 */
+.cat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.cat-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 18px;
+  background: var(--label-bg);
+  cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--border);
+}
+.cat-header:hover { background: #cdd9e8; }
+.cat-index { font-size: 12px; font-weight: 800; color: var(--navy); min-width: 18px; }
+.cat-title { font-size: 14px; font-weight: 700; color: var(--navy); flex: 1; }
+.cat-toggle { font-size: 12px; color: var(--muted); transition: transform 0.2s; }
+.cat-card.open .cat-toggle { transform: rotate(180deg); }
+
+.cat-body { padding: 14px 18px 16px; display: none; }
+.cat-card.open .cat-body { display: block; }
+
+/* 소분류 항목 */
+.sub-list { display: flex; flex-direction: column; gap: 8px; }
+.sub-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: #fafbfc;
+  transition: border-color 0.15s, background 0.15s;
+}
+.sub-item:hover { border-color: #2d5a8e; background: #f0f4fa; }
+.sub-item.checked { border-color: var(--navy); background: #eef2f8; }
+
+.sub-checkbox {
+  width: 16px; height: 16px; flex-shrink: 0;
+  accent-color: var(--navy); cursor: pointer;
+}
+.sub-label { flex: 1; font-size: 13px; color: var(--text); cursor: pointer; }
+.sub-input {
+  flex: 1; border: none; border-bottom: 1px solid #bbb;
+  font-size: 12px; padding: 2px 4px; background: transparent;
+  font-family: inherit; color: var(--text); outline: none;
+  display: none;
+}
+.sub-input:focus { border-bottom-color: var(--navy); }
+.sub-item.checked .sub-input { display: block; }
+
+.btn-sub-write {
+  padding: 5px 12px; font-size: 11px; font-weight: 600;
+  background: var(--navy); color: #fff;
+  border: none; border-radius: 5px; cursor: pointer;
+  font-family: inherit; white-space: nowrap;
+  text-decoration: none; display: none;
+  transition: background 0.15s;
+}
+.btn-sub-write:hover { background: #2d5a8e; }
+.sub-item.checked .btn-sub-write { display: inline-block; }
+
+/* 해당없음 */
+.none-item {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 10px; padding: 8px 12px;
+  border-radius: 7px;
+  border: 1px dashed #bbb;
+  background: #f9f9f9;
+}
+.none-item label { font-size: 12px; color: var(--muted); cursor: pointer; }
+.none-checkbox { width: 14px; height: 14px; accent-color: #888; cursor: pointer; }
+
+/* 구분선 */
+.chapter-divider { border: none; border-top: 2px solid var(--border); margin: 36px 0; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">SAFETY<span>-DIRECT</span></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <span id="navUserInfo" style="color:#8899AA;font-size:12px;"></span>
+    <a href="/" class="nav-back">← 메인으로</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>안전관리계획서 작성 시스템</h1>
+  <p>건설기술진흥법 시행규칙에 따른 안전관리계획서 각 양식을 작성할 수 있습니다.</p>
+</div>
+
+<div class="container">
+
+  <!-- ===== 1장 ===== -->
+  <div class="chapter-label">📋 1장 · 공사 일반</div>
+  <p class="chapter-desc">공사 전반에 관한 기본 정보를 입력합니다.</p>
+
+  <div class="chapter1-grid">
+
+    <div class="form-card" id="card-공사개요서">
+      <span class="form-card-index">가</span>
+      <div class="form-card-title">공사개요</div>
+      <span class="badge-ready">✅ 작성 가능</span>
+      <a href="/forms/공사개요서.html" class="btn-write">✏ 작성하기</a>
+    </div>
+
+    <div class="form-card">
+      <span class="form-card-index">나</span>
+      <div class="form-card-title">현장특성분석</div>
+      <span class="badge-soon">🔜 준비중</span>
+      <button class="btn-write disabled">✏ 작성하기</button>
+    </div>
+
+    <div class="form-card">
+      <span class="form-card-index">다</span>
+      <div class="form-card-title">현장운영계획</div>
+      <span class="badge-soon">🔜 준비중</span>
+      <button class="btn-write disabled">✏ 작성하기</button>
+    </div>
+
+    <div class="form-card">
+      <span class="form-card-index">라</span>
+      <div class="form-card-title">비상대피계획</div>
+      <span class="badge-soon">🔜 준비중</span>
+      <button class="btn-write disabled">✏ 작성하기</button>
+    </div>
+
+  </div>
+
+  <hr class="chapter-divider">
+
+  <!-- ===== 2장 ===== -->
+  <div class="chapter-label">🏗 2장 · 공종별 안전관리계획</div>
+  <p class="chapter-desc">해당하는 공종을 선택하여 각 양식을 작성하세요. 해당 없는 공종은 "해당없음"을 체크하세요.</p>
+
+  <div class="chapter2-section">
+
+    <!-- 가. 가설공사 -->
+    <div class="cat-card open">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">가</span>
+        <span class="cat-title">가설공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-가1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'가1')" id="chk-가1">
+            <label class="sub-label" for="chk-가1">가설비계</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-가2">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'가2')" id="chk-가2">
+            <label class="sub-label" for="chk-가2">가설장비 (천공기)</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-가3">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'가3')" id="chk-가3">
+            <label class="sub-label" for="chk-가3">가설장비 (항타기)</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-가4">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'가4')" id="chk-가4">
+            <label class="sub-label" for="chk-가4">가설장비 (이동식크레인)</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-가" onchange="toggleNone(this,'가')">
+          <label for="none-가">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 나. 굴착 및 발파공사 -->
+    <div class="cat-card">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">나</span>
+        <span class="cat-title">굴착 및 발파공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-나1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'나1')" id="chk-나1">
+            <label class="sub-label" for="chk-나1">굴착공사</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-나2">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'나2')" id="chk-나2">
+            <label class="sub-label" for="chk-나2">흙막이공사</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-나3">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'나3')" id="chk-나3">
+            <label class="sub-label" for="chk-나3">발파공사</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-나4">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'나4')" id="chk-나4">
+            <label class="sub-label" for="chk-나4">터널공사</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-나" onchange="toggleNone(this,'나')">
+          <label for="none-나">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 다. 콘크리트공사 -->
+    <div class="cat-card">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">다</span>
+        <span class="cat-title">콘크리트공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-다1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'다1')" id="chk-다1">
+            <label class="sub-label" for="chk-다1">시스템동바리 및 거푸집</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-다2">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'다2')" id="chk-다2">
+            <label class="sub-label" for="chk-다2">콘크리트타설 (펌프카)</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-다3">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'다3')" id="chk-다3">
+            <label class="sub-label" for="chk-다3">압송관타설 (압송관, CPB)</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-다4">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'다4')" id="chk-다4">
+            <label class="sub-label" for="chk-다4">작업발판 일체형 거푸집</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-다5">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'다5')" id="chk-다5">
+            <label class="sub-label" for="chk-다5">높이10m이상 외벽용 작업발판 (SWC)</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-다" onchange="toggleNone(this,'다')">
+          <label for="none-다">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 라. 강구조물공사 -->
+    <div class="cat-card">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">라</span>
+        <span class="cat-title">강구조물공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-라1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'라1')" id="chk-라1">
+            <label class="sub-label" for="chk-라1">일반철골</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-라2">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'라2')" id="chk-라2">
+            <label class="sub-label" for="chk-라2">특수구조</label>
+            <input type="text" class="sub-input" placeholder="구조 형식 입력">
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-라" onchange="toggleNone(this,'라')">
+          <label for="none-라">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 마. 성토 및 절토공사 -->
+    <div class="cat-card">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">마</span>
+        <span class="cat-title">성토 및 절토공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-마1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'마1')" id="chk-마1">
+            <label class="sub-label" for="chk-마1">옹벽</label>
+            <input type="text" class="sub-input" placeholder="옹벽 형식 입력">
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-마2">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'마2')" id="chk-마2">
+            <label class="sub-label" for="chk-마2">사면</label>
+            <input type="text" class="sub-input" placeholder="사면 형식 입력">
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-마" onchange="toggleNone(this,'마')">
+          <label for="none-마">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 바. 해체공사 -->
+    <div class="cat-card">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">바</span>
+        <span class="cat-title">해체공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-바1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'바1')" id="chk-바1">
+            <label class="sub-label" for="chk-바1">해체공법</label>
+            <input type="text" class="sub-input" placeholder="공법명 입력">
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-바2">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'바2')" id="chk-바2">
+            <label class="sub-label" for="chk-바2">사용장비</label>
+            <input type="text" class="sub-input" placeholder="장비명 입력">
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-바" onchange="toggleNone(this,'바')">
+          <label for="none-바">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 사. 건축설비공사 -->
+    <div class="cat-card">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">사</span>
+        <span class="cat-title">건축설비공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-사1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'사1')" id="chk-사1">
+            <label class="sub-label" for="chk-사1">전기설비</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-사2">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'사2')" id="chk-사2">
+            <label class="sub-label" for="chk-사2">기계설비</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+          <div class="sub-item" id="sub-사3">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'사3')" id="chk-사3">
+            <label class="sub-label" for="chk-사3">엘리베이터</label>
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-사" onchange="toggleNone(this,'사')">
+          <label for="none-사">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 아. 타워크레인공사 -->
+    <div class="cat-card">
+      <div class="cat-header" onclick="toggleCat(this)">
+        <span class="cat-index">아</span>
+        <span class="cat-title">타워크레인공사</span>
+        <span class="cat-toggle">▼</span>
+      </div>
+      <div class="cat-body">
+        <div class="sub-list">
+          <div class="sub-item" id="sub-아1">
+            <input type="checkbox" class="sub-checkbox" onchange="toggleSub(this,'아1')" id="chk-아1">
+            <label class="sub-label" for="chk-아1">장비제원</label>
+            <input type="text" class="sub-input" placeholder="장비 기종 입력">
+            <button class="btn-sub-write" onclick="goForm('준비중')">✏ 작성하기</button>
+          </div>
+        </div>
+        <div class="none-item">
+          <input type="checkbox" class="none-checkbox" id="none-아" onchange="toggleNone(this,'아')">
+          <label for="none-아">해당없음</label>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.chapter2-section -->
+
+</div><!-- /.container -->
+
+<script>
+// 로그인 상태 + 저장된 양식 확인 → 완료 카드 업데이트
+async function initCompletedStatus() {
+  try {
+    const me = await fetch('/api/me').then(r => r.json());
+    if (me.loggedIn) {
+      const userInfo = document.getElementById('navUserInfo');
+      if (userInfo) userInfo.innerHTML = `<strong style="color:#fff;">${me.name}</strong>&nbsp;·&nbsp;${me.company}`;
+
+      const forms = await fetch('/api/forms').then(r => r.json());
+      // formType별 최신 저장본
+      const savedMap = {};
+      forms.forEach(f => { if (!savedMap[f.formType]) savedMap[f.formType] = f; });
+
+      // 공사개요서 카드 업데이트
+      updateCard1('공사개요서', savedMap['공사개요서']);
+    }
+  } catch(e) {}
+}
+
+function updateCard1(formType, saved) {
+  if (!saved) return;
+  const card = document.getElementById('card-' + formType);
+  if (!card) return;
+  const date = new Date(saved.savedAt).toLocaleDateString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+  card.classList.add('completed');
+  card.innerHTML = `
+    <div class="complete-banner">
+      <span>✅</span>
+      <span class="complete-banner-text">작성 완료</span>
+      <span class="complete-banner-date">${date} 저장</span>
+    </div>
+    <span class="form-card-index">가</span>
+    <div class="form-card-title">공사개요</div>
+    <a href="/forms/공사개요서.html?load=${saved.id}" class="btn-edit">📂 열어서 수정하기</a>
+  `;
+}
+
+initCompletedStatus();
+
+function toggleCat(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+function toggleSub(checkbox, id) {
+  const item = document.getElementById('sub-' + id);
+  if (checkbox.checked) {
+    item.classList.add('checked');
+  } else {
+    item.classList.remove('checked');
+  }
+}
+
+function toggleNone(checkbox, catKey) {
+  const cat = checkbox.closest('.cat-card');
+  const subCheckboxes = cat.querySelectorAll('.sub-checkbox');
+  const subItems = cat.querySelectorAll('.sub-item');
+  if (checkbox.checked) {
+    subCheckboxes.forEach(cb => { cb.checked = false; cb.disabled = true; });
+    subItems.forEach(item => item.classList.remove('checked'));
+  } else {
+    subCheckboxes.forEach(cb => { cb.disabled = false; });
+  }
+}
+
+function goForm(url) {
+  if (url === '준비중') {
+    alert('현재 개발 중인 양식입니다.\n빠른 시일 내에 제공될 예정입니다.');
+    return;
+  }
+  window.location.href = url;
+}
+</script>
+</body>
+</html>
