@@ -565,7 +565,7 @@ function updateCard1(cfg, saved) {
   if (!saved) return;
   const card = document.getElementById('card-' + cfg.formType);
   if (!card) return;
-  const date = new Date(saved.savedAt).toLocaleDateString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+  const date = new Date(saved.savedAt).toLocaleString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
   card.classList.add('completed');
   card.innerHTML = `
     <div class="complete-banner">
