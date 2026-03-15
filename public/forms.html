@@ -241,25 +241,25 @@ body { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; background: var(--
       <a href="/forms/공사개요서.html" class="btn-write">✏ 작성하기</a>
     </div>
 
-    <div class="form-card">
+    <div class="form-card" id="card-현장특성분석">
       <span class="form-card-index">나</span>
       <div class="form-card-title">현장특성분석</div>
-      <span class="badge-soon">🔜 준비중</span>
-      <button class="btn-write disabled">✏ 작성하기</button>
+      <span class="badge-ready">✅ 작성 가능</span>
+      <a href="/forms/현장특성분석.html" class="btn-write">✏ 작성하기</a>
     </div>
 
-    <div class="form-card">
+    <div class="form-card" id="card-현장운영계획">
       <span class="form-card-index">다</span>
       <div class="form-card-title">현장운영계획</div>
-      <span class="badge-soon">🔜 준비중</span>
-      <button class="btn-write disabled">✏ 작성하기</button>
+      <span class="badge-ready">✅ 작성 가능</span>
+      <a href="/forms/현장운영계획.html" class="btn-write">✏ 작성하기</a>
     </div>
 
-    <div class="form-card">
+    <div class="form-card" id="card-비상대피계획">
       <span class="form-card-index">라</span>
       <div class="form-card-title">비상대피계획</div>
-      <span class="badge-soon">🔜 준비중</span>
-      <button class="btn-write disabled">✏ 작성하기</button>
+      <span class="badge-ready">✅ 작성 가능</span>
+      <a href="/forms/비상대피계획.html" class="btn-write">✏ 작성하기</a>
     </div>
 
   </div>
@@ -534,6 +534,14 @@ body { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; background: var(--
 </div><!-- /.container -->
 
 <script>
+// 1장 양식 설정 — 나중에 양식이 추가되면 이 배열에 항목만 추가하면 됨
+const CHAPTER1_FORMS = [
+  { formType: '공사개요서',  index: '가', title: '공사개요' },
+  { formType: '현장특성분석', index: '나', title: '현장특성분석' },
+  { formType: '현장운영계획', index: '다', title: '현장운영계획' },
+  { formType: '비상대피계획', index: '라', title: '비상대피계획' },
+];
+
 // 로그인 상태 + 저장된 양식 확인 → 완료 카드 업데이트
 async function initCompletedStatus() {
   try {
@@ -547,15 +555,15 @@ async function initCompletedStatus() {
       const savedMap = {};
       forms.forEach(f => { if (!savedMap[f.formType]) savedMap[f.formType] = f; });
 
-      // 공사개요서 카드 업데이트
-      updateCard1('공사개요서', savedMap['공사개요서']);
+      // 1장 모든 양식 카드 상태 업데이트
+      CHAPTER1_FORMS.forEach(cfg => updateCard1(cfg, savedMap[cfg.formType]));
     }
   } catch(e) {}
 }
 
-function updateCard1(formType, saved) {
+function updateCard1(cfg, saved) {
   if (!saved) return;
-  const card = document.getElementById('card-' + formType);
+  const card = document.getElementById('card-' + cfg.formType);
   if (!card) return;
   const date = new Date(saved.savedAt).toLocaleDateString('ko-KR', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
   card.classList.add('completed');
@@ -565,9 +573,9 @@ function updateCard1(formType, saved) {
       <span class="complete-banner-text">작성 완료</span>
       <span class="complete-banner-date">${date} 저장</span>
     </div>
-    <span class="form-card-index">가</span>
-    <div class="form-card-title">공사개요</div>
-    <a href="/forms/공사개요서.html?load=${saved.id}" class="btn-edit">📂 열어서 수정하기</a>
+    <span class="form-card-index">${cfg.index}</span>
+    <div class="form-card-title">${cfg.title}</div>
+    <a href="/forms/${encodeURIComponent(cfg.formType)}.html?load=${saved.id}" class="btn-edit">📂 열어서 수정하기</a>
   `;
 }
 

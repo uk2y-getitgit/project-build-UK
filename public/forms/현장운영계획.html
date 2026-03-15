@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>현장운영계획 작성 | Safety-Direct</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', sans-serif; background: #CDD3DA; min-height: 100vh; color: #1A2E44; }
+
+.sd-nav {
+  background: #0D1B2A; padding: 0 24px; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+}
+.sd-nav-logo { color: #fff; font-size: 15px; font-weight: 800; text-decoration: none; letter-spacing: 1px; }
+.sd-nav-logo span { color: #E8500A; }
+.sd-nav-center { color: #8899AA; font-size: 12px; font-weight: 500; }
+.sd-nav-back {
+  color: #8899AA; font-size: 12px; text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 6px; border: 1px solid #2a3f52;
+  transition: all 0.15s;
+}
+.sd-nav-back:hover { color: #fff; border-color: #5a7a99; background: #1a2e44; }
+
+.page-wrap { padding: 32px 20px 60px; display: flex; flex-direction: column; align-items: center; }
+
+.a4-paper {
+  width: 100%; max-width: 794px; background: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.18), 0 16px 40px rgba(0,0,0,0.12);
+  border-radius: 2px;
+}
+
+.doc-header {
+  background: linear-gradient(135deg, #1A3A5C 0%, #2D5A8E 100%);
+  padding: 20px 32px 16px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+}
+.doc-badge {
+  display: inline-block; background: rgba(200,168,75,0.25); color: #C8A84B;
+  font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 12px;
+  border: 1px solid rgba(200,168,75,0.4); letter-spacing: 0.5px; width: fit-content;
+}
+.doc-subtitle { color: rgba(255,255,255,0.55); font-size: 11px; margin-top: 2px; }
+.doc-org { color: rgba(255,255,255,0.4); font-size: 10px; }
+
+.doc-title-bar {
+  background: #fff; text-align: center;
+  padding: 18px 0 14px; border-bottom: 2.5px solid #1A3A5C;
+}
+.doc-title-text { font-size: 22px; font-weight: 800; letter-spacing: 12px; color: #1A3A5C; text-indent: 12px; }
+
+.section-band {
+  background: #1A3A5C; color: #fff;
+  font-size: 11px; font-weight: 700;
+  padding: 6px 20px; letter-spacing: 0.3px;
+}
+
+.form-table { width: 100%; border-collapse: collapse; }
+.form-table td { border: 1px solid #C5CDD8; padding: 0; vertical-align: middle; font-size: 12px; }
+.form-table td.lbl {
+  background: #EEF2F7; color: #1A3A5C; font-weight: 700;
+  padding: 9px 14px; white-space: nowrap; width: 130px;
+  font-size: 11.5px; border-right: 2px solid #C5CDD8;
+}
+.form-table td.inp { padding: 5px 10px; }
+.form-table td.inp input[type=text],
+.form-table td.inp input[type=tel],
+.form-table td.inp input[type=date],
+.form-table td.inp select,
+.form-table td.inp textarea {
+  width: 100%; border: none; outline: none;
+  font-family: inherit; font-size: 12.5px; color: #1A2E44;
+  background: transparent; padding: 4px 2px; resize: vertical;
+}
+.form-table td.inp input:focus,
+.form-table td.inp select:focus,
+.form-table td.inp textarea:focus { background: #F0F5FF; border-radius: 3px; }
+.form-table td.inp textarea { min-height: 70px; }
+.field-empty { background: #FFF3F3 !important; border: 1px solid #FCA5A5 !important; border-radius: 3px; }
+
+.doc-body { padding: 0 32px 32px; }
+.section-gap { height: 20px; }
+
+.action-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px; background: #F8FAFB;
+  border-top: 1px solid #E5EBF3; gap: 12px; flex-wrap: wrap;
+}
+.action-bar-left { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-save {
+  background: linear-gradient(135deg, #E8500A, #C44008); color: #fff;
+  border: none; padding: 10px 24px; border-radius: 8px;
+  font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+  box-shadow: 0 4px 14px rgba(232,80,10,0.3); transition: all 0.15s;
+}
+.btn-save:hover { transform: translateY(-1px); }
+.btn-clear {
+  background: #fff; color: #6B7280; border: 1.5px solid #D1D5DB;
+  padding: 10px 18px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.btn-clear:hover { border-color: #9CA3AF; color: #374151; }
+.status-msg { font-size: 12px; font-weight: 600; }
+.status-msg.ok { color: #2E7D32; }
+.status-msg.err { color: #C0392B; }
+
+#emptyToast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(60px);
+  background: #2D3748; color: #fff; padding: 10px 20px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; transition: transform 0.3s; z-index: 9999;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3); white-space: nowrap;
+}
+#emptyToast.show { transform: translateX(-50%) translateY(0); }
+.toast-count { background: #E8500A; padding: 1px 7px; border-radius: 10px; font-size: 11px; margin-left: 6px; }
+</style>
+</head>
+<body>
+
+<nav class="sd-nav">
+  <a href="/" class="sd-nav-logo">SAFETY<span>-DIRECT</span></a>
+  <span class="sd-nav-center">현장운영계획 작성</span>
+  <a href="/forms.html" class="sd-nav-back">← 양식 목록</a>
+</nav>
+
+<div class="page-wrap">
+<div class="a4-paper">
+
+  <div class="doc-header">
+    <div>
+      <div class="doc-badge">건설기술진흥법 시행규칙 별지 제6호 서식</div>
+      <div class="doc-subtitle">안전관리계획서 · 제1장 공사 일반</div>
+    </div>
+    <div style="text-align:right;"><div class="doc-org">Safety-Direct</div></div>
+  </div>
+
+  <div class="doc-title-bar">
+    <div class="doc-title-text">현장운영계획</div>
+  </div>
+
+  <div class="action-bar">
+    <div class="action-bar-left">
+      <button class="btn-save" onclick="saveAndGo()">💾 저장하기</button>
+      <button class="btn-clear" onclick="clearAll()">↺ 초기화</button>
+      <button class="btn-clear" onclick="checkEmpty()">🔍 빈칸 확인</button>
+    </div>
+    <span class="status-msg" id="statusMsg"></span>
+  </div>
+
+  <div class="doc-body">
+
+    <!-- 1. 기본 공사 정보 -->
+    <div class="section-gap"></div>
+    <div class="section-band">1. 기본 공사 정보</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">공사명</td>
+        <td class="inp" colspan="3"><input type="text" id="공사명" placeholder="공사 명칭을 입력하세요"></td>
+      </tr>
+      <tr>
+        <td class="lbl">현장소재지</td>
+        <td class="inp" colspan="3"><input type="text" id="현장소재지" placeholder="현장 주소를 입력하세요"></td>
+      </tr>
+      <tr>
+        <td class="lbl">작성일</td>
+        <td class="inp"><input type="date" id="작성일"></td>
+        <td class="lbl">작성자</td>
+        <td class="inp"><input type="text" id="작성자" placeholder="성명"></td>
+      </tr>
+    </table>
+
+    <!-- 2. 안전 조직 -->
+    <div class="section-gap"></div>
+    <div class="section-band">2. 안전 조직 구성</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">안전보건<br>총괄책임자</td>
+        <td class="inp"><input type="text" id="총괄책임자성명" placeholder="성명"></td>
+        <td class="lbl">연락처</td>
+        <td class="inp"><input type="tel" id="총괄책임자연락처" placeholder="010-0000-0000"></td>
+      </tr>
+      <tr>
+        <td class="lbl">안전관리자</td>
+        <td class="inp"><input type="text" id="안전관리자성명" placeholder="성명"></td>
+        <td class="lbl">연락처</td>
+        <td class="inp"><input type="tel" id="안전관리자연락처" placeholder="010-0000-0000"></td>
+      </tr>
+      <tr>
+        <td class="lbl">보건관리자</td>
+        <td class="inp"><input type="text" id="보건관리자성명" placeholder="성명 (미선임 시 해당없음)"></td>
+        <td class="lbl">연락처</td>
+        <td class="inp"><input type="tel" id="보건관리자연락처" placeholder="010-0000-0000"></td>
+      </tr>
+      <tr>
+        <td class="lbl">조직도 개요</td>
+        <td class="inp" colspan="3"><textarea id="조직도개요" placeholder="현장 안전 조직 구성 개요를 기재하세요"></textarea></td>
+      </tr>
+    </table>
+
+    <!-- 3. 안전 교육 계획 -->
+    <div class="section-gap"></div>
+    <div class="section-band">3. 안전 교육 계획</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">정기 안전교육<br>주기</td>
+        <td class="inp">
+          <select id="정기교육주기">
+            <option value="">-- 선택 --</option>
+            <option>매일 (작업 전 TBM)</option>
+            <option>주 1회</option>
+            <option>월 1회</option>
+            <option>분기 1회</option>
+          </select>
+        </td>
+        <td class="lbl">교육 시간</td>
+        <td class="inp"><input type="text" id="정기교육시간" placeholder="시간/회 (예: 1시간)"></td>
+      </tr>
+      <tr>
+        <td class="lbl">신규 채용자<br>교육</td>
+        <td class="inp" colspan="3"><input type="text" id="신규채용교육" placeholder="교육 내용 및 시간 기재 (예: 채용 시 8시간 이상)"></td>
+      </tr>
+      <tr>
+        <td class="lbl">특별 안전교육<br>대상 작업</td>
+        <td class="inp" colspan="3"><textarea id="특별교육대상" placeholder="특별 안전교육 대상 작업 목록 기재 (고소작업, 굴착작업, 중장비 운전 등)"></textarea></td>
+      </tr>
+    </table>
+
+    <!-- 4. 안전 점검 계획 -->
+    <div class="section-gap"></div>
+    <div class="section-band">4. 안전 점검 계획</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">자체 점검<br>주기</td>
+        <td class="inp">
+          <select id="자체점검주기">
+            <option value="">-- 선택 --</option>
+            <option>매일</option>
+            <option>주 1회</option>
+            <option>월 1회</option>
+          </select>
+        </td>
+        <td class="lbl">합동 점검<br>주기</td>
+        <td class="inp">
+          <select id="합동점검주기">
+            <option value="">-- 선택 --</option>
+            <option>월 1회</option>
+            <option>분기 1회</option>
+            <option>반기 1회</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="lbl">점검 주요<br>항목</td>
+        <td class="inp" colspan="3"><textarea id="점검주요항목" placeholder="안전 점검 시 주요 확인 항목을 기재하세요 (가설시설물, 안전시설물, 작업환경 등)"></textarea></td>
+      </tr>
+    </table>
+
+    <!-- 5. 위험성 평가 계획 -->
+    <div class="section-gap"></div>
+    <div class="section-band">5. 위험성 평가 계획</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">실시 시기</td>
+        <td class="inp" colspan="3">
+          <select id="위험성평가시기">
+            <option value="">-- 선택 --</option>
+            <option>최초 평가 후 매 분기</option>
+            <option>최초 평가 후 반기</option>
+            <option>최초 평가 후 연 1회</option>
+            <option>공종 변경 시 수시 실시</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="lbl">평가 방법</td>
+        <td class="inp" colspan="3"><input type="text" id="위험성평가방법" placeholder="위험성 평가 방법 기재 (빈도-강도법, 체크리스트법 등)"></td>
+      </tr>
+      <tr>
+        <td class="lbl">담당자</td>
+        <td class="inp" colspan="3"><input type="text" id="위험성평가담당자" placeholder="위험성 평가 주관 담당자 성명/직책"></td>
+      </tr>
+    </table>
+
+    <div class="section-gap"></div>
+
+  </div><!-- /.doc-body -->
+
+  <div class="action-bar" style="border-top:2.5px solid #1A3A5C;">
+    <div class="action-bar-left">
+      <button class="btn-save" onclick="saveAndGo()">💾 저장하기</button>
+      <button class="btn-clear" onclick="clearAll()">↺ 초기화</button>
+    </div>
+    <span class="status-msg" id="statusMsg2"></span>
+  </div>
+
+</div><!-- /.a4-paper -->
+</div><!-- /.page-wrap -->
+
+<div id="emptyToast">
+  <span id="toastMsg"></span>
+  <span class="toast-count" id="toastCount" style="display:none;"></span>
+</div>
+
+<script>
+const FORM_TYPE = '현장운영계획';
+
+function collectData() {
+  const data = {};
+  document.querySelectorAll('input[type=text], input[type=tel], input[type=date], select, textarea').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  return data;
+}
+
+function clearAll() {
+  if (!confirm('모든 입력값을 초기화하시겠습니까?')) return;
+  document.querySelectorAll('input[type=text], input[type=tel], input[type=date], textarea').forEach(el => el.value = '');
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  document.getElementById('statusMsg').textContent = '';
+}
+
+let toastTimer = null;
+function checkEmpty() {
+  document.querySelectorAll('.field-empty').forEach(el => el.classList.remove('field-empty'));
+  const fields = document.querySelectorAll('input[type=text], input[type=tel], input[type=date], textarea');
+  const empty = [];
+  fields.forEach(el => {
+    if (el.value.trim() === '') {
+      el.classList.add('field-empty');
+      empty.push(el);
+      el.addEventListener('input', function onInput() {
+        if (this.value.trim() !== '') { this.classList.remove('field-empty'); this.removeEventListener('input', onInput); }
+      });
+    }
+  });
+  if (empty.length === 0) {
+    showToast('✅ 모든 항목이 입력되었습니다!', 0, true);
+  } else {
+    empty[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    empty[0].focus();
+    showToast('빈칸을 확인해주세요', empty.length, false);
+  }
+}
+
+function showToast(msg, count, isOk) {
+  const toast = document.getElementById('emptyToast');
+  document.getElementById('toastMsg').textContent = msg;
+  const countEl = document.getElementById('toastCount');
+  countEl.textContent = count > 0 ? count + '개' : '';
+  countEl.style.display = count > 0 ? 'inline' : 'none';
+  toast.style.background = isOk ? '#276749' : '#2D3748';
+  toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+async function loadSavedForm() {
+  const loadId = new URLSearchParams(location.search).get('load');
+  if (!loadId) return;
+  try {
+    const res = await fetch(`/api/forms/${loadId}`);
+    if (!res.ok) return;
+    const rec = await res.json();
+    Object.entries(rec.data || {}).forEach(([key, val]) => {
+      const el = document.getElementById(key);
+      if (el) el.value = val;
+    });
+    const status = document.getElementById('statusMsg');
+    status.className = 'status-msg ok';
+    status.textContent = `✅ "${rec.title}" 불러오기 완료`;
+  } catch(e) { console.error(e); }
+}
+window.addEventListener('DOMContentLoaded', loadSavedForm);
+
+async function saveAndGo() {
+  const me = await fetch('/api/me').then(r => r.json());
+  if (!me.loggedIn) {
+    if (confirm('저장하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?')) {
+      location.href = '/login.html?redirect=' + encodeURIComponent(location.pathname);
+    }
+    return;
+  }
+  const data = collectData();
+  const projectName = document.getElementById('공사명')?.value.trim();
+  const title = projectName
+    ? `${FORM_TYPE} — ${projectName}`
+    : `${FORM_TYPE} (${new Date().toLocaleDateString('ko-KR')})`;
+
+  const btn = document.querySelector('.btn-save');
+  btn.disabled = true; btn.textContent = '저장 중...';
+  try {
+    const res = await fetch('/api/forms/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ formType: FORM_TYPE, title, data }),
+    });
+    const result = await res.json();
+    if (res.ok) {
+      const msg = result.updated ? '✅ 기존 저장본을 업데이트했습니다.' : '✅ 저장이 완료되었습니다.';
+      document.getElementById('statusMsg').className = 'status-msg ok';
+      document.getElementById('statusMsg').textContent = msg;
+      setTimeout(() => { location.href = '/forms.html'; }, 1200);
+    } else {
+      alert('저장 실패: ' + result.error);
+    }
+  } catch(e) {
+    alert('서버 오류로 저장할 수 없습니다.');
+  }
+  btn.disabled = false; btn.textContent = '💾 저장하기';
+}
+</script>
+</body>
+</html>

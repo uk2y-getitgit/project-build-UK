@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비상대피계획 작성 | Safety-Direct</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', sans-serif; background: #CDD3DA; min-height: 100vh; color: #1A2E44; }
+
+.sd-nav {
+  background: #0D1B2A; padding: 0 24px; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+}
+.sd-nav-logo { color: #fff; font-size: 15px; font-weight: 800; text-decoration: none; letter-spacing: 1px; }
+.sd-nav-logo span { color: #E8500A; }
+.sd-nav-center { color: #8899AA; font-size: 12px; font-weight: 500; }
+.sd-nav-back {
+  color: #8899AA; font-size: 12px; text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 6px; border: 1px solid #2a3f52;
+  transition: all 0.15s;
+}
+.sd-nav-back:hover { color: #fff; border-color: #5a7a99; background: #1a2e44; }
+
+.page-wrap { padding: 32px 20px 60px; display: flex; flex-direction: column; align-items: center; }
+
+.a4-paper {
+  width: 100%; max-width: 794px; background: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.18), 0 16px 40px rgba(0,0,0,0.12);
+  border-radius: 2px;
+}
+
+.doc-header {
+  background: linear-gradient(135deg, #1A3A5C 0%, #2D5A8E 100%);
+  padding: 20px 32px 16px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+}
+.doc-badge {
+  display: inline-block; background: rgba(200,168,75,0.25); color: #C8A84B;
+  font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 12px;
+  border: 1px solid rgba(200,168,75,0.4); letter-spacing: 0.5px; width: fit-content;
+}
+.doc-subtitle { color: rgba(255,255,255,0.55); font-size: 11px; margin-top: 2px; }
+.doc-org { color: rgba(255,255,255,0.4); font-size: 10px; }
+
+.doc-title-bar {
+  background: #fff; text-align: center;
+  padding: 18px 0 14px; border-bottom: 2.5px solid #1A3A5C;
+}
+.doc-title-text { font-size: 22px; font-weight: 800; letter-spacing: 12px; color: #1A3A5C; text-indent: 12px; }
+
+.section-band {
+  background: #1A3A5C; color: #fff;
+  font-size: 11px; font-weight: 700;
+  padding: 6px 20px; letter-spacing: 0.3px;
+}
+
+.form-table { width: 100%; border-collapse: collapse; }
+.form-table td { border: 1px solid #C5CDD8; padding: 0; vertical-align: middle; font-size: 12px; }
+.form-table td.lbl {
+  background: #EEF2F7; color: #1A3A5C; font-weight: 700;
+  padding: 9px 14px; white-space: nowrap; width: 130px;
+  font-size: 11.5px; border-right: 2px solid #C5CDD8;
+}
+.form-table td.lbl.danger {
+  background: #FEF3F3; color: #B91C1C;
+}
+.form-table td.inp { padding: 5px 10px; }
+.form-table td.inp input[type=text],
+.form-table td.inp input[type=tel],
+.form-table td.inp input[type=date],
+.form-table td.inp textarea {
+  width: 100%; border: none; outline: none;
+  font-family: inherit; font-size: 12.5px; color: #1A2E44;
+  background: transparent; padding: 4px 2px; resize: vertical;
+}
+.form-table td.inp input:focus,
+.form-table td.inp textarea:focus { background: #F0F5FF; border-radius: 3px; }
+.form-table td.inp textarea { min-height: 70px; }
+.field-empty { background: #FFF3F3 !important; border: 1px solid #FCA5A5 !important; border-radius: 3px; }
+
+.doc-body { padding: 0 32px 32px; }
+.section-gap { height: 20px; }
+
+.action-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px; background: #F8FAFB;
+  border-top: 1px solid #E5EBF3; gap: 12px; flex-wrap: wrap;
+}
+.action-bar-left { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-save {
+  background: linear-gradient(135deg, #E8500A, #C44008); color: #fff;
+  border: none; padding: 10px 24px; border-radius: 8px;
+  font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+  box-shadow: 0 4px 14px rgba(232,80,10,0.3); transition: all 0.15s;
+}
+.btn-save:hover { transform: translateY(-1px); }
+.btn-clear {
+  background: #fff; color: #6B7280; border: 1.5px solid #D1D5DB;
+  padding: 10px 18px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.btn-clear:hover { border-color: #9CA3AF; color: #374151; }
+.status-msg { font-size: 12px; font-weight: 600; }
+.status-msg.ok { color: #2E7D32; }
+.status-msg.err { color: #C0392B; }
+
+#emptyToast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(60px);
+  background: #2D3748; color: #fff; padding: 10px 20px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; transition: transform 0.3s; z-index: 9999;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3); white-space: nowrap;
+}
+#emptyToast.show { transform: translateX(-50%) translateY(0); }
+.toast-count { background: #E8500A; padding: 1px 7px; border-radius: 10px; font-size: 11px; margin-left: 6px; }
+</style>
+</head>
+<body>
+
+<nav class="sd-nav">
+  <a href="/" class="sd-nav-logo">SAFETY<span>-DIRECT</span></a>
+  <span class="sd-nav-center">비상대피계획 작성</span>
+  <a href="/forms.html" class="sd-nav-back">← 양식 목록</a>
+</nav>
+
+<div class="page-wrap">
+<div class="a4-paper">
+
+  <div class="doc-header">
+    <div>
+      <div class="doc-badge">건설기술진흥법 시행규칙 별지 제7호 서식</div>
+      <div class="doc-subtitle">안전관리계획서 · 제1장 공사 일반</div>
+    </div>
+    <div style="text-align:right;"><div class="doc-org">Safety-Direct</div></div>
+  </div>
+
+  <div class="doc-title-bar">
+    <div class="doc-title-text">비상대피계획</div>
+  </div>
+
+  <div class="action-bar">
+    <div class="action-bar-left">
+      <button class="btn-save" onclick="saveAndGo()">💾 저장하기</button>
+      <button class="btn-clear" onclick="clearAll()">↺ 초기화</button>
+      <button class="btn-clear" onclick="checkEmpty()">🔍 빈칸 확인</button>
+    </div>
+    <span class="status-msg" id="statusMsg"></span>
+  </div>
+
+  <div class="doc-body">
+
+    <!-- 1. 기본 공사 정보 -->
+    <div class="section-gap"></div>
+    <div class="section-band">1. 기본 공사 정보</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">공사명</td>
+        <td class="inp" colspan="3"><input type="text" id="공사명" placeholder="공사 명칭을 입력하세요"></td>
+      </tr>
+      <tr>
+        <td class="lbl">현장소재지</td>
+        <td class="inp" colspan="3"><input type="text" id="현장소재지" placeholder="현장 주소를 입력하세요"></td>
+      </tr>
+      <tr>
+        <td class="lbl">작성일</td>
+        <td class="inp"><input type="date" id="작성일"></td>
+        <td class="lbl">작성자</td>
+        <td class="inp"><input type="text" id="작성자" placeholder="성명"></td>
+      </tr>
+    </table>
+
+    <!-- 2. 비상 연락 체계 -->
+    <div class="section-gap"></div>
+    <div class="section-band">2. 비상 연락 체계</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl danger">현장 비상<br>연락처</td>
+        <td class="inp"><input type="tel" id="현장비상연락처" placeholder="현장 대표 비상 번호"></td>
+        <td class="lbl danger">현장 책임자</td>
+        <td class="inp"><input type="text" id="현장책임자" placeholder="성명 및 직책"></td>
+      </tr>
+      <tr>
+        <td class="lbl danger">관할 소방서</td>
+        <td class="inp"><input type="text" id="관할소방서명" placeholder="소방서명"></td>
+        <td class="lbl danger">소방서 연락처</td>
+        <td class="inp"><input type="tel" id="관할소방서연락처" placeholder="전화번호 (119 또는 직통)"></td>
+      </tr>
+      <tr>
+        <td class="lbl danger">관할 경찰서</td>
+        <td class="inp"><input type="text" id="관할경찰서명" placeholder="경찰서명"></td>
+        <td class="lbl danger">경찰서 연락처</td>
+        <td class="inp"><input type="tel" id="관할경찰서연락처" placeholder="전화번호 (112 또는 직통)"></td>
+      </tr>
+      <tr>
+        <td class="lbl danger">인근 병원</td>
+        <td class="inp"><input type="text" id="인근병원명" placeholder="병원명 및 응급실 유무"></td>
+        <td class="lbl danger">병원 연락처</td>
+        <td class="inp"><input type="tel" id="인근병원연락처" placeholder="전화번호 (응급실 직통)"></td>
+      </tr>
+      <tr>
+        <td class="lbl">발주처<br>담당자</td>
+        <td class="inp"><input type="text" id="발주처담당자" placeholder="성명 및 직책"></td>
+        <td class="lbl">발주처 연락처</td>
+        <td class="inp"><input type="tel" id="발주처연락처" placeholder="010-0000-0000"></td>
+      </tr>
+    </table>
+
+    <!-- 3. 대피 경로 및 집결지 -->
+    <div class="section-gap"></div>
+    <div class="section-band">3. 대피 경로 및 비상 집결지</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">주 대피로</td>
+        <td class="inp" colspan="3"><textarea id="주대피로" placeholder="주 대피 경로를 상세히 기재하세요 (예: 현장 출입구 → 도로명 → 집결지)"></textarea></td>
+      </tr>
+      <tr>
+        <td class="lbl">보조 대피로</td>
+        <td class="inp" colspan="3"><textarea id="보조대피로" placeholder="주 대피로 사용 불가 시 보조 대피 경로를 기재하세요"></textarea></td>
+      </tr>
+      <tr>
+        <td class="lbl">비상 집결지<br>(1차)</td>
+        <td class="inp" colspan="3"><input type="text" id="비상집결지1" placeholder="1차 집결지 위치 및 특징 (예: 현장 정문 앞 공터)"></td>
+      </tr>
+      <tr>
+        <td class="lbl">비상 집결지<br>(2차)</td>
+        <td class="inp" colspan="3"><input type="text" id="비상집결지2" placeholder="2차 집결지 위치 (1차 사용 불가 시)"></td>
+      </tr>
+    </table>
+
+    <!-- 4. 비상 대응 절차 -->
+    <div class="section-gap"></div>
+    <div class="section-band">4. 비상 대응 절차</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">화재 발생 시<br>대응 절차</td>
+        <td class="inp" colspan="3"><textarea id="화재대응절차" placeholder="① 화재 발견 → ② 비상벨/경보 → ③ 119 신고 → ④ 초기 진화 시도 (가능 시) → ⑤ 대피 명령 → ⑥ 집결지 집합 및 인원 확인 순으로 기재"></textarea></td>
+      </tr>
+      <tr>
+        <td class="lbl">인명 사고 시<br>대응 절차</td>
+        <td class="inp" colspan="3"><textarea id="인명사고대응절차" placeholder="① 사고 발생 → ② 주변 위험 제거 → ③ 119/응급실 신고 → ④ 응급 처치 → ⑤ 책임자 보고 → ⑥ 발주처·관계기관 보고 순으로 기재"></textarea></td>
+      </tr>
+      <tr>
+        <td class="lbl">붕괴·도괴 시<br>대응 절차</td>
+        <td class="inp" colspan="3"><textarea id="붕괴대응절차" placeholder="① 붕괴 징후 발견 시 작업 중지 → ② 전원 대피 → ③ 관계기관 신고 → ④ 매몰자 확인 → ⑤ 구조 지원 요청 순으로 기재"></textarea></td>
+      </tr>
+    </table>
+
+    <!-- 5. 비상 장비 및 설비 -->
+    <div class="section-gap"></div>
+    <div class="section-band">5. 비상 장비 및 설비 현황</div>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">소화기</td>
+        <td class="inp"><input type="text" id="소화기수량" placeholder="수량 및 배치 위치"></td>
+        <td class="lbl">소화전</td>
+        <td class="inp"><input type="text" id="소화전위치" placeholder="위치 기재"></td>
+      </tr>
+      <tr>
+        <td class="lbl">구급함</td>
+        <td class="inp"><input type="text" id="구급함위치" placeholder="수량 및 배치 위치"></td>
+        <td class="lbl">비상 조명</td>
+        <td class="inp"><input type="text" id="비상조명위치" placeholder="설치 위치"></td>
+      </tr>
+      <tr>
+        <td class="lbl">비상 방송<br>시스템</td>
+        <td class="inp" colspan="3"><input type="text" id="비상방송" placeholder="방송 시스템 유무 및 범위 기재 (없을 시: 육성/호루라기 등 대체 수단 기재)"></td>
+      </tr>
+    </table>
+
+    <div class="section-gap"></div>
+
+  </div><!-- /.doc-body -->
+
+  <div class="action-bar" style="border-top:2.5px solid #1A3A5C;">
+    <div class="action-bar-left">
+      <button class="btn-save" onclick="saveAndGo()">💾 저장하기</button>
+      <button class="btn-clear" onclick="clearAll()">↺ 초기화</button>
+    </div>
+    <span class="status-msg" id="statusMsg2"></span>
+  </div>
+
+</div><!-- /.a4-paper -->
+</div><!-- /.page-wrap -->
+
+<div id="emptyToast">
+  <span id="toastMsg"></span>
+  <span class="toast-count" id="toastCount" style="display:none;"></span>
+</div>
+
+<script>
+const FORM_TYPE = '비상대피계획';
+
+function collectData() {
+  const data = {};
+  document.querySelectorAll('input[type=text], input[type=tel], input[type=date], textarea').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  return data;
+}
+
+function clearAll() {
+  if (!confirm('모든 입력값을 초기화하시겠습니까?')) return;
+  document.querySelectorAll('input[type=text], input[type=tel], input[type=date], textarea').forEach(el => el.value = '');
+  document.getElementById('statusMsg').textContent = '';
+}
+
+let toastTimer = null;
+function checkEmpty() {
+  document.querySelectorAll('.field-empty').forEach(el => el.classList.remove('field-empty'));
+  const fields = document.querySelectorAll('input[type=text], input[type=tel], input[type=date], textarea');
+  const empty = [];
+  fields.forEach(el => {
+    if (el.value.trim() === '') {
+      el.classList.add('field-empty');
+      empty.push(el);
+      el.addEventListener('input', function onInput() {
+        if (this.value.trim() !== '') { this.classList.remove('field-empty'); this.removeEventListener('input', onInput); }
+      });
+    }
+  });
+  if (empty.length === 0) {
+    showToast('✅ 모든 항목이 입력되었습니다!', 0, true);
+  } else {
+    empty[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    empty[0].focus();
+    showToast('빈칸을 확인해주세요', empty.length, false);
+  }
+}
+
+function showToast(msg, count, isOk) {
+  const toast = document.getElementById('emptyToast');
+  document.getElementById('toastMsg').textContent = msg;
+  const countEl = document.getElementById('toastCount');
+  countEl.textContent = count > 0 ? count + '개' : '';
+  countEl.style.display = count > 0 ? 'inline' : 'none';
+  toast.style.background = isOk ? '#276749' : '#2D3748';
+  toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+async function loadSavedForm() {
+  const loadId = new URLSearchParams(location.search).get('load');
+  if (!loadId) return;
+  try {
+    const res = await fetch(`/api/forms/${loadId}`);
+    if (!res.ok) return;
+    const rec = await res.json();
+    Object.entries(rec.data || {}).forEach(([key, val]) => {
+      const el = document.getElementById(key);
+      if (el) el.value = val;
+    });
+    const status = document.getElementById('statusMsg');
+    status.className = 'status-msg ok';
+    status.textContent = `✅ "${rec.title}" 불러오기 완료`;
+  } catch(e) { console.error(e); }
+}
+window.addEventListener('DOMContentLoaded', loadSavedForm);
+
+async function saveAndGo() {
+  const me = await fetch('/api/me').then(r => r.json());
+  if (!me.loggedIn) {
+    if (confirm('저장하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?')) {
+      location.href = '/login.html?redirect=' + encodeURIComponent(location.pathname);
+    }
+    return;
+  }
+  const data = collectData();
+  const projectName = document.getElementById('공사명')?.value.trim();
+  const title = projectName
+    ? `${FORM_TYPE} — ${projectName}`
+    : `${FORM_TYPE} (${new Date().toLocaleDateString('ko-KR')})`;
+
+  const btn = document.querySelector('.btn-save');
+  btn.disabled = true; btn.textContent = '저장 중...';
+  try {
+    const res = await fetch('/api/forms/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ formType: FORM_TYPE, title, data }),
+    });
+    const result = await res.json();
+    if (res.ok) {
+      const msg = result.updated ? '✅ 기존 저장본을 업데이트했습니다.' : '✅ 저장이 완료되었습니다.';
+      document.getElementById('statusMsg').className = 'status-msg ok';
+      document.getElementById('statusMsg').textContent = msg;
+      setTimeout(() => { location.href = '/forms.html'; }, 1200);
+    } else {
+      alert('저장 실패: ' + result.error);
+    }
+  } catch(e) {
+    alert('서버 오류로 저장할 수 없습니다.');
+  }
+  btn.disabled = false; btn.textContent = '💾 저장하기';
+}
+</script>
+</body>
+</html>
