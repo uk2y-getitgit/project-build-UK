@@ -234,6 +234,13 @@ body { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; background: var(--
 
   <div class="chapter1-grid">
 
+    <div class="form-card" id="card-표지및목차">
+      <span class="form-card-index">별지</span>
+      <div class="form-card-title">표지 및 목차</div>
+      <span class="badge-ready">✅ 작성 가능</span>
+      <a href="/forms/표지및목차.html" class="btn-write">✏ 작성하기</a>
+    </div>
+
     <div class="form-card" id="card-공사개요서">
       <span class="form-card-index">가</span>
       <div class="form-card-title">공사개요</div>
@@ -536,6 +543,7 @@ body { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; background: var(--
 <script>
 // 1장 양식 설정 — 나중에 양식이 추가되면 이 배열에 항목만 추가하면 됨
 const CHAPTER1_FORMS = [
+  { formType: '표지및목차',  index: '별지', title: '표지 및 목차' },
   { formType: '공사개요서',  index: '가', title: '공사개요' },
   { formType: '현장특성분석', index: '나', title: '현장특성분석' },
   { formType: '현장운영계획', index: '다', title: '현장운영계획' },
